@@ -1,0 +1,25 @@
+name: Faktury-online.com backup
+
+on: 
+  workflow_dispatch:
+  schedule:
+  - cron: "15 0 1 * *"
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      API_KEY: ${{ secrets.API_KEY }}
+      EMAIL: ${{ secrets.EMAIL }}
+    steps:
+
+    - uses: actions/checkout@v4
+
+    - run: node dist/index.js
+
+    - uses: stefanzweifel/git-auto-commit-action@v5
